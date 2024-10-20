@@ -1,0 +1,35 @@
+.navigation {
+	// width: fit-content;
+	// max-width: 800px;
+	// margin: 0 0 0 25vw;
+	border-bottom: #16370b 1px solid;
+	// border-bottom-right-radius: 0;
+	// border-bottom-left-radius: 2em;
+	align-self: center;
+
+	color: #f0ebcd;
+	color: #16370b;
+	// background-color: $hicolor;
+	// background: -webkit-linear-gradient(#1d481d, #16370b);
+	// filter: drop-shadow(0px 0px 50px #16370b);
+	margin: 0 auto;
+	padding: 1em 0;
+	max-width: 75vw;
+	// background: 
+    // linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 20%, 
+    //                         rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.6) 40%, 
+    //                         rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.4) 60%, 
+    //                         rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.2) 80%, 
+    //                         rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 0) 100%);
+	// margin: 0 0 1em;
+	.title {
+		align-items: baseline;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		padding: 1em;
+		// filter: drop-shadow(10px 30px 50px #000000);
+
+	}
+}
