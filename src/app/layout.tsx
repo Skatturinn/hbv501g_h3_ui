@@ -46,7 +46,7 @@ export default async function RootLayout({
 					<Paths files={files} depth={1} />
 				</header>
 		<main>{children}</main>
-		<footer>test</footer>
+		<footer>Aron,Elías og Snæfríður.</footer>
       </body>
     </html>
   );

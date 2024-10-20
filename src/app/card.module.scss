@@ -1,0 +1,37 @@
+.container {
+	padding: 1em;
+	display: flex;
+	gap: 1em;
+	flex-wrap: wrap;
+	// filter: drop-shadow(10px 0px 10px #16370b);
+	// background-color: white;
+}
+
+.container2 {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	gap: 1em;
+	flex-wrap: wrap;
+	list-style: none;
+	// filter: drop-shadow(10px 0px 10px #16370b);
+	// background-color: white;
+}
+
+.card {
+	padding: 1em;
+	// border-radius: 1em;
+	border-top-left-radius: 1em;
+	border-left: 1px solid black;
+	border-top: 1px solid black;
+	background-color: #f0ebcd;;
+
+	// filter: drop-shadow(10px 10px 10px black);
+
+	ol {
+		li {
+			margin: 0 0 0 1em;
+		}
+	}
+}
