@@ -1,6 +1,5 @@
 'use client'
 import { useForm } from "react-hook-form";
-import { group, notandi, project } from "@/types/types";
 import { useState } from "react";
 import styles from "./Paths.module.scss";
 

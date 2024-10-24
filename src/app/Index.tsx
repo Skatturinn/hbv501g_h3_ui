@@ -1,4 +1,3 @@
-import { Value } from "sass";
 import styles from "./card.module.scss"
 interface DataItem {
 	href: string;
