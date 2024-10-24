@@ -30,7 +30,7 @@ export default function Get() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:8081${pathname}`, {
+        const res = await fetch(`https://hbv501gh3-production.up.railway.app${pathname}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -51,10 +51,9 @@ export default function Get() {
     };
 
     // Fetch data when pathname changes
-    if (pathname) {
+ 
       fetchData();
-    }
-  }, [pathname]); // Add pathname to dependency array so it fetches on path change
+  }, []); // Add pathname to dependency array so it fetches on path change
 
   return (
     <>
@@ -82,7 +81,7 @@ export default function Get() {
                   {value?.id ? (
                     <button
                       onClick={() => {
-                        fetch(`http://localhost:8081${pathname}/${value.id}`, {
+                        fetch(`https://hbv501gh3-production.up.railway.app${pathname}/${value.id}`, {
                           method: 'DELETE',
                           headers: {
                             'Content-Type': 'application/json',

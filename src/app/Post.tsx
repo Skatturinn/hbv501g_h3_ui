@@ -37,12 +37,13 @@ export function Post({ type, method }: FormDataProps) {
   // Form submit function
   const onSubmit = async (data: User | Pattern) => {
     try {
-      const response = await fetch(`http://localhost:8081/${type}`, {
+      const response = await fetch(`https://hbv501gh3-production.up.railway.app/${type}`, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
+		credentials: 'omit',
       });
 
       const result = await response.json();
