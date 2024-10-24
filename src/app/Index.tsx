@@ -5,7 +5,7 @@ interface DataItem {
   }
 
 export default async function Index(){
-	const res = await fetch(`http://localhost:8081/`);
+	const res = await fetch(`https://hbv501gh3-production.up.railway.app`);
 	const data = await res.json();
 	console.log(data)
 	return <div className={styles.container}>{Object.entries(data).map(

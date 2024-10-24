@@ -1,7 +1,7 @@
 'use client'
 import styles from "./card.module.scss";
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation'; // Ensure you're using this hook correctly
+import { usePathname } from 'next/navigation';
 
 // Define the expected structure of your data, such as User or Pattern
 interface DataItem {
@@ -9,28 +9,44 @@ interface DataItem {
     userList?: User[];
     patternList?: Pattern[];
   };
+  _links?: {
+    first?: { href: string };
+    prev?: { href: string };
+    self?: { href: string };
+    next?: { href: string };
+    last?: { href: string };
+  };
+  page?: {
+    size: number;
+    totalElements: number;
+    totalPages: number;
+    number: number;
+  };
 }
 
 interface User {
   id: number;
-  name: string;
-  // other fields...
+  username: string;
+  password: string | null;
+  email: string | null;
 }
 
 interface Pattern {
   id: number;
   title: string;
-  // other fields...
+  patternMatrix: string;
+  colorScheme: string;
 }
 
 export default function Get() {
   const [data, setData] = useState<DataItem | null>(null);
+  const [pageUrl, setPageUrl] = useState<string | null>(null);
   const pathname = usePathname(); // Dynamically use pathname for fetch
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (url: string) => {
       try {
-        const res = await fetch(`https://hbv501gh3-production.up.railway.app${pathname}`, {
+        const res = await fetch(url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -50,56 +66,89 @@ export default function Get() {
       }
     };
 
-    // Fetch data when pathname changes
- 
-      fetchData();
-  }, []); // Add pathname to dependency array so it fetches on path change
+    const initialUrl = `https://hbv501gh3-production.up.railway.app${pathname}`;
+    fetchData(pageUrl || initialUrl); // Fetch the current page or the initial URL
+
+  }, [pageUrl, pathname]); // Refetch when pageUrl or pathname changes
+
+  const handleNextPage = () => {
+    if (data?._links?.next?.href) {
+      setPageUrl(data._links.next.href);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (data?._links?.prev?.href) {
+      setPageUrl(data._links.prev.href);
+    }
+  };
 
   return (
     <>
       {!data ? (
         <p>Loading...</p>
       ) : (
-        <ul className={styles.container2}>
-          {/* Use Object.entries and map to render the data */}
-          {Object.entries(data._embedded?.userList || data._embedded?.patternList || data).map(([key, value]) => (
-            <li key={key} className={styles.card}>
-              <h3>{key}</h3>
-              {/* Conditionally render if value is an object */}
-              {typeof value === 'object' && value !== null ? (
-                <>
-                  <a href={`${pathname}/${value.id ?? ''}`}>
-                    <ul>
-                      {Object.entries(value).map(([key2, value2]) => (
-                        <li key={key2}>
-                          <h4>{key2}</h4>
-                          <p>{String(value2)}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </a>
-                  {value?.id ? (
-                    <button
-                      onClick={() => {
-                        fetch(`https://hbv501gh3-production.up.railway.app${pathname}/${value.id}`, {
-                          method: 'DELETE',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          credentials: 'omit', // Credentials omitted, adjust if needed
-                        }).then(() => history.go());
-                      }}
-                    >
-                      Eyða
-                    </button>
-                  ) : null}
-                </>
-              ) : (
-                <p>{String(value)}</p>
-              )}
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className={styles.container2}>
+            {/* Use Object.entries and map to render the data */}
+            {Object.entries(data._embedded?.userList || data._embedded?.patternList || data).map(([key, value]) => (
+              <li key={key} className={styles.card}>
+                <h3>{key}</h3>
+                {/* Conditionally render if value is an object */}
+                {typeof value === 'object' && value !== null ? (
+                  <>
+                    <a href={`${pathname}/${value.id ?? ''}`}>
+                      <ul>
+                        {Object.entries(value).map(([key2, value2]) => (
+                          <li key={key2}>
+                            <h4>{key2}</h4>
+                            <p>{String(value2)}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </a>
+                    {value?.id ? (
+                      <button
+                        onClick={() => {
+                          fetch(`https://hbv501gh3-production.up.railway.app${pathname}/${value.id}`, {
+                            method: 'DELETE',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            credentials: 'omit', // Credentials omitted, adjust if needed
+                          }).then(() => history.go());
+                        }}
+                      >
+                        Eyða
+                      </button>
+                    ) : null}
+                  </>
+                ) : (
+                  <p>{String(value)}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Pagination buttons */}
+          <div className={styles.pagination}>
+            <button
+              onClick={handlePrevPage}
+              disabled={!data?._links?.prev}
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={!data?._links?.next}
+            >
+              Next
+            </button>
+            <p>
+              Page {data?.page?.number || 0 + 1} of {data?.page?.totalPages}
+            </p>
+          </div>
+        </>
       )}
     </>
   );
